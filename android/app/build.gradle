@@ -48,6 +48,7 @@ apply plugin: "com.android.application"
  */
 
 apply from: "react.gradle"
+apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 
 android {
     compileSdkVersion 23
@@ -86,4 +87,5 @@ dependencies {
     compile "com.facebook.react:react-native:0.17.+"
     compile project(':react-native-android-statusbar')
     compile project(':react-native-splashscreen')
+    compile project(':react-native-code-push')
 }

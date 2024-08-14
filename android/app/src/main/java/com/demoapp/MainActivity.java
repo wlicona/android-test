@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 
+import com.microsoft.codepush.react.CodePush;
+
 import com.facebook.react.LifecycleState;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
@@ -80,4 +82,29 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
             mReactInstanceManager.onResume(this, this);
         }
     }
+}
+
+public class MainApplication extends Application implements ReactApplication {
+  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+        ...
+        // 2. Override the getJSBundleFile method to let
+        // the CodePush runtime determine where to get the JS
+        // bundle location from on each app start
+        @Override
+        protected String getJSBundleFile() {
+            return CodePush.getJSBundleFile();
+        }
+
+        @Override
+        protected List<ReactPackage> getPackages() {
+            // 3. Instantiate an instance of the CodePush runtime and add it to the list of
+            // existing packages, specifying the right deployment key. If you don't already
+            // have it, you can run "appcenter codepush deployment list -a <ownerName>/<appName> --displayKeys" to retrieve your key.
+            return Arrays.<ReactPackage>asList(
+                new MainReactPackage(),
+                new CodePush("deployment-key-here", MainApplication.this, BuildConfig.DEBUG)
+            );
+        }
+    };
+
 }
